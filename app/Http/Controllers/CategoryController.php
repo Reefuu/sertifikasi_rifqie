@@ -48,7 +48,11 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $category = Categories::with('books')->findOrFail($id);
+        return view("categories.show", [
+            "headtitle" => "Categories",
+            "category" => $category,
+        ]);
     }
 
     /**
