@@ -11,6 +11,8 @@ Route::resource('categories', CategoryController::class);
 Route::resource('members', MemberController::class);
 Route::resource('library', LibraryController::class);
 
+Route::post('library/{book}/borrow', [LibraryController::class, 'borrow'])->name('library.borrow');
+Route::post('library/{book}/return', [LibraryController::class, 'return'])->name('library.return');
 
 
 Route::get('/', function () {
