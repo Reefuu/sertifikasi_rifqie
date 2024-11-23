@@ -1,7 +1,7 @@
 <nav class="bg-yellow-100 px-5 py-5">
     @php
         $menus = [
-            ['title' => 'Home', 'url' => '/'],
+            ['title' => 'Library', 'url' => '/'],
             ['title' => 'Books', 'url' => '/books'],
             ['title' => 'Categories', 'url' => '/categories'],
             ['title' => 'Members', 'url' => '/members'],
