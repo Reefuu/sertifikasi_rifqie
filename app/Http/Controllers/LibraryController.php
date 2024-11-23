@@ -18,23 +18,4 @@ class LibraryController extends Controller
             "members"=> $members,
         ]);
     }
-
-    public function borrow(Request $request, $id)
-    {
-        $book = Books::findOrFail($id);
-        $member = Members::findOrFail(id: $request->member_id);
-
-        $book->member_id = $member->id;
-        $book->save();
-
-        return redirect('/')->with('success', 'Book borrowed successfully.');
-    }
-    public function return($id)
-    {
-        $book = Books::findOrFail($id);
-        $book->member_id = null;
-        $book->save();
-
-        return redirect('/')->with('success', 'Book returned successfully.');
-    }
 }
