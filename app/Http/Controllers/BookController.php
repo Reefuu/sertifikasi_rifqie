@@ -13,7 +13,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Books::with(relations: 'categories')->get();
+        $books = Books::with(relations: 'categories')->get()->all();
 
         return view("books.index", [
             "headtitle" => "Books",
@@ -105,9 +105,11 @@ class BookController extends Controller
     public function destroy(string $id)
     {
         $book = Books::findOrFail($id);
+        $book->member_id = null;
+        $book->save();
         $book->delete();
 
-        return redirect('\books')>with('success', 'Book deleted successfully.');
+        return redirect('/books')->with('success', 'Book deleted successfully.');
 
     }
 }

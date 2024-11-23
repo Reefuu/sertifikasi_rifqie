@@ -4,7 +4,6 @@
 <head>
     <title>{{ $headtitle }}</title>
     @vite('resources/css/app.css')
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 </head>
 
 <body>

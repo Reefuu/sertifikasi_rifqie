@@ -101,7 +101,7 @@ class MemberController extends Controller
         $book->member_id = $member->id;
         $book->save();
 
-        return redirect('/')->with('success', 'Book borrowed successfully.');
+        return redirect('/library')->with('success', 'Book borrowed successfully.');
     }
     public function return($id)
     {
@@ -109,6 +109,6 @@ class MemberController extends Controller
         $book->member_id = null;
         $book->save();
 
-        return redirect('/')->with('success', 'Book returned successfully.');
+        return redirect('/library')->with('success', 'Book returned successfully.');
     }
 }

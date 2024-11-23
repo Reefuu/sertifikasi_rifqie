@@ -18,6 +18,6 @@ class Books extends Model
 
     public function member()
     {
-        return $this->belongsTo(Members::class);
+        return $this->belongsTo(Members::class, 'member_id');
     }
 }

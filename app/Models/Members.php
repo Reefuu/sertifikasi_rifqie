@@ -13,6 +13,15 @@ class Members extends Model
 
     public function books()
     {
-        return $this->hasMany(Books::class);
+        return $this->hasMany(Books::class, 'member_id');
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($member) {
+            // Delete all books borrowed by this member
+            $member->books()->delete();
+        });
     }
 }
