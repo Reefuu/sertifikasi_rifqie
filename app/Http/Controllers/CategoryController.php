@@ -50,7 +50,6 @@ class CategoryController extends Controller
     {
         $category = Categories::with('books')->findOrFail($id);
         return view("categories.show", [
-            "headtitle" => "Categories",
             "category" => $category,
         ]);
     }

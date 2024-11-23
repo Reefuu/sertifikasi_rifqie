@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Books;
 use App\Models\Members;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,12 @@ class MemberController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $member = Members::findOrFail($id);
+        $books = Books::where('member_id', $member->id)->get()->all();
+        return view("members.show", [
+            "member" => $member,
+            "books" => $books,
+        ]);
     }
 
     /**
