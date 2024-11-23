@@ -73,16 +73,14 @@ class MemberController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255|regex:/\S/' . $id,
+            'name' => 'required|string|max:255|regex:/\S/',
         ]);
-
+    
         $member = Members::findOrFail($id);
         $member->update($request->all());
-
+    
         return redirect("/members")->with('success', 'Member updated successfully.');
-
     }
-
     /**
      * Remove the specified resource from storage.
      */
