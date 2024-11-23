@@ -12,7 +12,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        return view("members", [
+        return view("members.index", [
             "headtitle" => "Members",
             "members" => Members::all(),
         ]);
@@ -23,7 +23,7 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view("addMember", [
+        return view("members.store", [
             "headtitle" => "Add Member",
         ]);
     }
@@ -34,7 +34,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "name"=> "required|string|max:255",
+            "name"=> "required|string|max:255|regex:/\S/",
         ]);
         Members::create($request->all());
 
@@ -55,7 +55,7 @@ class MemberController extends Controller
     public function edit(string $id)
     {
         $member = Members::findOrFail($id);
-        return view("editMember", [
+        return view("members.update", [
             "headtitle" => "Edit Member",
             "member" => $member,
         ]);
@@ -67,7 +67,7 @@ class MemberController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255' . $id,
+            'name' => 'required|string|max:255|regex:/\S/' . $id,
         ]);
 
         $member = Members::findOrFail($id);
