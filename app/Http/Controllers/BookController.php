@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Books;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -11,7 +13,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Books::with('categories')->get();
+
+        return view("books.index", [
+            "headtitle" => "Books",
+            "books" => $books,
+        ]);
     }
 
     /**
@@ -19,7 +26,15 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Categories::all();
+        if ($categories->isEmpty()) {
+            return redirect('/books')->with('error', 'Cannot add book. No categories available.');
+        }
+        return view("books.store", [
+            "headtitle" => "Add Book",
+            "categories" => $categories,
+        ]);
+
     }
 
     /**
@@ -27,7 +42,18 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255|regex:/\S/',
+            'author' => 'required|string|max:255|regex:/\S/',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
+        ]);
+
+        $book = Books::create($request->only('title', 'author'));
+        $book->categories()->sync($request->categories);
+
+        return redirect('/books')->with('success', 'Book created successfully.');
+
     }
 
     /**
@@ -43,7 +69,14 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $book = Books::findOrFail($id);
+        $categories = Categories::all();
+        return view("books.update", [
+            "headtitle" => "Edit Book",
+            "book" => $book,
+            "categories" => $categories,
+        ]);
+
     }
 
     /**
@@ -51,7 +84,19 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255|regex:/\S/',
+            'author' => 'required|string|max:255|regex:/\S/',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
+        ]);
+
+        $book = Books::findOrFail($id);
+        $book->update($request->only('title', 'author'));
+        $book->categories()->sync($request->categories);
+
+        return redirect('/books')->with('success', 'Book updated successfully.');
+
     }
 
     /**
@@ -59,6 +104,10 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $book = Books::findOrFail($id);
+        $book->delete();
+
+        return redirect('\books')>with('success', 'Book deleted successfully.');
+
     }
 }

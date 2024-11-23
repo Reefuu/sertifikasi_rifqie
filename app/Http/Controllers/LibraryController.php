@@ -8,7 +8,7 @@ class LibraryController extends Controller
 {
     public function index(){
         return view("index",[
-            "headtitle" => "Home",
+            "headtitle" => "Library",
         ]);
     }
 }
